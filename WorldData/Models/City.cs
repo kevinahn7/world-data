@@ -99,6 +99,31 @@ namespace WorldData.Models
             return allCities;
         }
 
+        public static List<City> GetSpecificCities(string code)
+        {
+            List<City> allCities = new List<City> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM city ORDER BY name;";
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                int cityId = rdr.GetInt32(0);
+                string cityName = rdr.GetString(1);
+                string cityCode = rdr.GetString(2);
+                int cityPopulation = rdr.GetInt32(3);
+                City newCity = new City(cityId, cityName, cityCode, cityPopulation);
+                allCities.Add(newCity);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return allCities;
+        }
+
         public static List<City> SortBy(string column, bool isAscend)
         {
             List<City> allCities = new List<City> { };

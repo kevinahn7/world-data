@@ -55,6 +55,12 @@ namespace WorldData.Controllers
             Country.SetisPopulationAscend(!Country.GetisPopulationAscend());
             return View("Index", Country.SortBy("population", Country.GetisPopulationAscend()));
         }
+
+        [HttpGet("/country/{code}")]
+        public ActionResult DisplayCities(string code)
+        {
+            return View("city/Index", City.GetSpecificCities(code));
+        }
     }
 
 }
