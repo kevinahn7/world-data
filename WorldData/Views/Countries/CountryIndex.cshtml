@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Country";
+}
+
+<form action="/country/pop-filter">
+    <label for="min">Minimum Population</label>
+    <input type="number" name="min" id="min">
+    <label for="max">Maximum Population</label>
+    <input type="number" name="max" id="max">
+    <button type="submit">Filter</button>
+</form>
+
+<form action="/country/continent-filter">
+    <label for="africa">Africa</label>
+    <input type="checkbox" name="africa" value="africa">
+    <label for="antarctica">&nbsp;&nbsp Antarctica</label>
+    <input type="checkbox" name="antarctica" value="antarctica">
+    <label for="asia">&nbsp;&nbsp Asia</label>
+    <input type="checkbox" name="asia" value="asia">
+    <label for="europe">&nbsp;&nbsp Europe</label>
+    <input type="checkbox" name="europe" value="europe">
+    <label for="north-america">&nbsp;&nbsp North America</label>
+    <input type="checkbox" name="northAmerica" value="north america">
+    <label for="oceania">&nbsp;&nbsp Oceania</label>
+    <input type="checkbox" name="oceania" value="oceania">
+    <label for="south-america">&nbsp;&nbsp South America</label>
+    <input type="checkbox" name="southAmerica" value="south america">
+    <button type="submit">Filter</button>
+</form>
+
+<div class="theTableCountry">
+    <a href="/country/code"><div class="cell">Country Code</div></a>
+    <a href="/country/name"><div class="cell">Country Name</div></a>
+    <a href="/country/continent"><div class="cell">Continent</div></a>
+    <a href="/country/population"><div class="cell">Population</div></a>
+    @foreach(var country in Model)
+    {
+        <a href="/country/@country.GetCode()"><div class="cell">@country.GetCode()</div></a>
+        <a href="/country/@country.GetCode()"><div class="cell">@country.GetName()</div></a>
+        <div class="cell">@country.GetContinent()</div>
+        <div class="cell">@country.GetPopulation()</div>
+    }
+</div>

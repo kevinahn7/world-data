@@ -14,6 +14,7 @@ namespace WorldData.Models
         private static bool _isNameAscend = false;
         private static bool _isCodeAscend = false;
         private static bool _isPopulationAscend = false;
+        private static List<City> _selectedCities = new List<City> { };
 
         public City(int id, string name, string code, int population)
         {
@@ -73,6 +74,11 @@ namespace WorldData.Models
             _isPopulationAscend = input;
         }
 
+        public static List<City> GetSelectedCities()
+        {
+            return _selectedCities;
+        }
+
 
         public static List<City> GetAllCities()
         {
@@ -105,7 +111,7 @@ namespace WorldData.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM city ORDER BY name;";
+            cmd.CommandText = @"SELECT * FROM city WHERE countrycode = '" + code + "' ORDER BY name;";
             MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
             while (rdr.Read())
             {
@@ -121,6 +127,7 @@ namespace WorldData.Models
             {
                 conn.Dispose();
             }
+            _selectedCities = allCities;
             return allCities;
         }
 

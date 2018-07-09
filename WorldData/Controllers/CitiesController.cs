@@ -11,7 +11,7 @@ namespace WorldData.Controllers
     public class CitiesController : Controller
     {
         [HttpGet("/city")]
-        public ActionResult Index()
+        public ActionResult CityIndex()
         {
             return View(City.GetAllCities());
         }
@@ -23,7 +23,7 @@ namespace WorldData.Controllers
             City.SetisNameAscend(!City.GetisNameAscend());
             City.SetisCodeAscend(false);
             City.SetisPopulationAscend(false);
-            return View("Index", City.SortBy("name", City.GetisNameAscend()));
+            return View("CityIndex", City.SortBy("name", City.GetisNameAscend()));
         }
 
         [HttpGet("/city/code")]
@@ -32,7 +32,7 @@ namespace WorldData.Controllers
             City.SetisNameAscend(false);
             City.SetisCodeAscend(!City.GetisCodeAscend());
             City.SetisPopulationAscend(false);
-            return View("Index", City.SortBy("countrycode", City.GetisCodeAscend()));
+            return View("CityIndex", City.SortBy("countrycode", City.GetisCodeAscend()));
         }
 
         [HttpGet("/city/population")]
@@ -41,7 +41,20 @@ namespace WorldData.Controllers
             City.SetisNameAscend(false);
             City.SetisCodeAscend(false);
             City.SetisPopulationAscend(!City.GetisPopulationAscend());
-            return View("Index", City.SortBy("population", City.GetisPopulationAscend()));
+            return View("CityIndex", City.SortBy("population", City.GetisPopulationAscend()));
+        }
+
+
+
+
+
+        [HttpGet("/city/name/{code}")]
+        public ActionResult DisplayCities(string code)
+        {
+            City.SetisNameAscend(!City.GetisNameAscend());
+            City.SetisCodeAscend(false);
+            City.SetisPopulationAscend(false);
+            return View("CityIndex", City.GetSelectedCities());
         }
     }
 

@@ -11,7 +11,7 @@ namespace WorldData.Controllers
     public class CountriesController : Controller
     {
         [HttpGet("/country")]
-        public ActionResult Index()
+        public ActionResult CountryIndex()
         {
             return View(Country.GetAllCountry());
         }
@@ -23,7 +23,7 @@ namespace WorldData.Controllers
             Country.SetisNameAscend(false);
 			Country.SetisContinentAscend(false);
             Country.SetisPopulationAscend(false);
-            return View("Index", Country.SortBy("code", Country.GetisCodeAscend()));
+            return View("CountryIndex", Country.SortBy("code", Country.GetisCodeAscend()));
         }
 
         [HttpGet("/country/name")]
@@ -33,7 +33,7 @@ namespace WorldData.Controllers
             Country.SetisNameAscend(!Country.GetisNameAscend());
             Country.SetisContinentAscend(false);
             Country.SetisPopulationAscend(false);
-            return View("Index", Country.SortBy("name", Country.GetisNameAscend()));
+            return View("CountryIndex", Country.SortBy("name", Country.GetisNameAscend()));
         }
 
         [HttpGet("/country/continent")]
@@ -43,7 +43,7 @@ namespace WorldData.Controllers
             Country.SetisNameAscend(false);
             Country.SetisContinentAscend(!Country.GetisContinentAscend());
             Country.SetisPopulationAscend(false);
-            return View("Index", Country.SortBy("continent", Country.GetisContinentAscend()));
+            return View("CountryIndex", Country.SortBy("continent", Country.GetisContinentAscend()));
         }
 
         [HttpGet("/country/population")]
@@ -53,13 +53,37 @@ namespace WorldData.Controllers
             Country.SetisNameAscend(false);
             Country.SetisContinentAscend(false);
             Country.SetisPopulationAscend(!Country.GetisPopulationAscend());
-            return View("Index", Country.SortBy("population", Country.GetisPopulationAscend()));
+            return View("CountryIndex", Country.SortBy("population", Country.GetisPopulationAscend()));
         }
 
         [HttpGet("/country/{code}")]
         public ActionResult DisplayCities(string code)
         {
-            return View("city/Index", City.GetSpecificCities(code));
+            return View("CityIndex", City.GetSpecificCities(code));
+        }
+
+        [HttpGet("/country/pop-filter")]
+        public ActionResult FilterCountries(string min, string max)
+        {
+            if (min == null)
+            {
+                min = "0";
+            }
+            if (max == null)
+            {
+                max = "2000000000";
+            }
+            int minInt = int.Parse(min);
+            int maxInt = int.Parse(max);
+            return View("CountryIndex", Country.FilterCountries(minInt, maxInt));
+        }
+
+        [HttpGet("/country/continent-filter")]
+        public ActionResult FilterCountriesByContinent(string africa, string antarctica, string asia, string europe, string northAmerica, string oceania, string southAmerica)
+        {
+            List<string> continentList = Country.IsChecked(africa, antarctica, asia, europe, northAmerica, oceania, southAmerica);
+
+            return View("CountryIndex", Country.FilterCountriesByContinent(continentList));
         }
     }
 

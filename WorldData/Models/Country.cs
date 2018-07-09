@@ -140,5 +140,96 @@ namespace WorldData.Models
             }
             return allCountries;
         }
+
+
+
+
+
+
+        public static List<Country> FilterCountries(int min = 0, int max = 2000000000)
+        {
+            List<Country> filteredCountries = new List<Country> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM country WHERE population BETWEEN " + min + " AND " + max + " ORDER BY code;";
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                string countryCode = rdr.GetString(0);
+                string countryName = rdr.GetString(1);
+                string countryContinent = rdr.GetString(2);
+                int countryPopulation = rdr.GetInt32(3);
+                Country newCountry = new Country(countryCode, countryName, countryContinent, countryPopulation);
+                filteredCountries.Add(newCountry);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return filteredCountries;
+        }
+
+        public static List<Country> FilterCountriesByContinent(List<string> list)
+        {
+            List<Country> filteredCountries = new List<Country> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            string start = @"SELECT * FROM country WHERE continent IN (";
+            string end = "";
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i == list.Count - 1)
+                {
+                    end += "'" + list[i] + "') ORDER BY continent;";
+                }
+                else
+                {
+                    end += "'" + list[i] + "', ";
+                }
+            }
+
+
+            cmd.CommandText = start + end;
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                string countryCode = rdr.GetString(0);
+                string countryName = rdr.GetString(1);
+                string countryContinent = rdr.GetString(2);
+                int countryPopulation = rdr.GetInt32(3);
+                Country newCountry = new Country(countryCode, countryName, countryContinent, countryPopulation);
+                filteredCountries.Add(newCountry);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return filteredCountries;
+        }
+
+        public static List<string> IsChecked(string africa = "", string antarctica = "", string asia = "", string europe = "", string northAmerica = "", string oceania = "", string southAmerica = "")
+        {
+            List<string> theList = new List<string> {};
+            theList.Add(africa);
+            theList.Add(antarctica);
+            theList.Add(europe);
+            theList.Add(northAmerica);
+            theList.Add(oceania);
+            theList.Add(southAmerica);
+
+
+            foreach (string continent in theList)
+            {
+                if (continent == "")
+                {
+                    theList.Remove(continent);
+                }
+            }
+            return theList;
+        }
     }
 }
