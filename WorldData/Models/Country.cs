@@ -45,6 +45,46 @@ namespace WorldData.Models
             return _population;
         }
 
+        public static bool GetisCodeAscend()
+        {
+            return _isCodeAscend;
+        }
+
+        public static void SetisCodeAscend(bool input)
+        {
+            _isCodeAscend = input;
+        }
+
+        public static bool GetisNameAscend()
+        {
+            return _isNameAscend;
+        }
+
+        public static void SetisNameAscend(bool input)
+        {
+            _isNameAscend = input;
+        }
+
+        public static bool GetisContinentAscend()
+        {
+            return _isContinentAscend;
+        }
+
+        public static void SetisContinentAscend(bool input)
+        {
+            _isContinentAscend = input;
+        }
+
+        public static bool GetisPopulationAscend()
+        {
+            return _isPopulationAscend;
+        }
+
+        public static void SetisPopulationAscend(bool input)
+        {
+            _isPopulationAscend = input;
+        }
+
         public static List<Country> GetAllCountry()
         {
             List<Country> allCountries = new List<Country> { };
@@ -69,13 +109,20 @@ namespace WorldData.Models
             return allCountries;
         }
 
-        public static List<Country> SortBy(string column)
+        public static List<Country> SortBy(string column, bool isAscend)
         {
             List<Country> allCountries = new List<Country> { };
             MySqlConnection conn = DB.Connection();
             conn.Open();
             MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM country ORDER BY " + column + " ASC;";
+            if (isAscend)
+            {
+                cmd.CommandText = @"SELECT * FROM country ORDER BY " + column + " ASC;";
+            }
+            else
+            {
+                cmd.CommandText = @"SELECT * FROM country ORDER BY " + column + " DESC;";
+            }
             MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
             while (rdr.Read())
             {

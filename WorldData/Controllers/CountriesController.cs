@@ -19,26 +19,41 @@ namespace WorldData.Controllers
         [HttpGet("/country/code")]
         public ActionResult SortByCode()
         {
-            return View("Index", Country.SortBy("code"));
+            Country.SetisCodeAscend(!Country.GetisCodeAscend());
+            Country.SetisNameAscend(false);
+			Country.SetisContinentAscend(false);
+            Country.SetisPopulationAscend(false);
+            return View("Index", Country.SortBy("code", Country.GetisCodeAscend()));
         }
 
         [HttpGet("/country/name")]
         public ActionResult SortByName()
         {
-            return View("Index", Country.SortBy("name"));
+            Country.SetisCodeAscend(false);
+            Country.SetisNameAscend(!Country.GetisNameAscend());
+            Country.SetisContinentAscend(false);
+            Country.SetisPopulationAscend(false);
+            return View("Index", Country.SortBy("name", Country.GetisNameAscend()));
         }
-
 
         [HttpGet("/country/continent")]
         public ActionResult SortByContinent()
         {
-            return View("Index", Country.SortBy("continent"));
+            Country.SetisCodeAscend(false);
+            Country.SetisNameAscend(false);
+            Country.SetisContinentAscend(!Country.GetisContinentAscend());
+            Country.SetisPopulationAscend(false);
+            return View("Index", Country.SortBy("continent", Country.GetisContinentAscend()));
         }
 
         [HttpGet("/country/population")]
         public ActionResult SortByPopulation()
         {
-            return View("Index", Country.SortBy("population"));
+            Country.SetisCodeAscend(false);
+            Country.SetisNameAscend(false);
+            Country.SetisContinentAscend(false);
+            Country.SetisPopulationAscend(!Country.GetisPopulationAscend());
+            return View("Index", Country.SortBy("population", Country.GetisPopulationAscend()));
         }
     }
 
