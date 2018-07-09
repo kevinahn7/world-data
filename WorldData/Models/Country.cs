@@ -146,13 +146,13 @@ namespace WorldData.Models
 
 
 
-        public static List<Country> FilterCountries(int min = 0, int max = 2000000000)
+        public static List<Country> FilterCountries(int min, int max)
         {
             List<Country> filteredCountries = new List<Country> { };
             MySqlConnection conn = DB.Connection();
             conn.Open();
             MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM country WHERE population BETWEEN " + min + " AND " + max + " ORDER BY code;";
+            cmd.CommandText = @"SELECT * FROM country WHERE population BETWEEN " + min + " AND " + max + " ORDER BY population;";
             MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
             while (rdr.Read())
             {
@@ -216,6 +216,7 @@ namespace WorldData.Models
             List<string> theList = new List<string> {};
             theList.Add(africa);
             theList.Add(antarctica);
+            theList.Add(asia);
             theList.Add(europe);
             theList.Add(northAmerica);
             theList.Add(oceania);
