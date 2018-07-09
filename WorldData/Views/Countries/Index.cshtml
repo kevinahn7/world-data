@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Country";
+}
+
+<div class="theTableCountry">
+    <a href="/country/code"><div class="cell">Country Code</div></a>
+    <a href="/country/name"><div class="cell">Country Name</div></a>
+    <a href="/country/continent"><div class="cell">Continent</div></a>
+    <a href="/country/population"><div class="cell">Population</div></a>
+    @foreach(var country in Model)
+    {
+        <div class="cell">@country.GetCode()</div>
+        <div class="cell">@country.GetName()</div>
+        <div class="cell">@country.GetContinent()</div>
+        <div class="cell">@country.GetPopulation()</div>
+    }
+</div>
